@@ -1,6 +1,6 @@
 # 上海大学(SBU 上海傻X大学,克莱登大学上海分校)实验报告模板
 
-A LaTeX template of report in required format in ZJU (most cases).
+A LaTeX template of report in required format in SHU (most cases).
 
 ## Usage
 
