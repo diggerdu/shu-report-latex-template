@@ -3,19 +3,19 @@
 % Part 1 Edit the info
 % =============================================
 
-\dmajor{信息工程}
-\dname{徐阳}
+\dmajor{计算机科学}
+\dname{颜乐春}
 % 假装封装了一下前面的变量定义部分
 
-\newcommand{\stuid}{3171002333}
+\newcommand{\stuid}{15124542}
 \newcommand{\newdate}{2017-10-09}
-\newcommand{\loc}{寝室}
+\newcommand{\loc}{704}
 
-\newcommand{\course}{数字信号处理}
-\newcommand{\tutor}{Hao}
+\newcommand{\course}{算法设计於分析}
+\newcommand{\tutor}{神人}
 \newcommand{\grades}{59}
-\newcommand{\newtitle}{系统传输函数零极点分析}
-\newcommand{\exptype}{设计实验}
+\newcommand{\newtitle}{棋盘覆盖问题}
+\newcommand{\exptype}{Null}
 \newcommand{\group}{None}
 
 % 下划线的一个定义
@@ -35,66 +35,45 @@
 % Part 2 Main document
 % =============================================
 
-\section{实验目的和要求}
-  系统差分方程和传输函数是线性系统的重要概念，通过分析系统差分方程和传输函数的特性，编程查看系统零极点分布，加深对线性系统的了解。
+\section{问题描述於实验目的}
+设$n=2^k (k>0)$。在一个$n×n$个方格组成的棋盘中，恰有1个方格与其他方格不同，称该方格为特殊方格。显然，特殊方格在棋盘中可能出现的位置有4k种，因而有n2种不同的棋盘，下图所示是$k=2，n=4$时$16$种棋盘中的一个。\par
+棋盘覆盖问题要求用下图所示的4种不同形状的L型骨牌覆盖给定棋盘上除特殊方格以外的所有方格，且任何2个L型骨牌不得重叠覆盖。
+\subsection{输入}
+测试数据有若干行，每行$3$个整数$k，x，y$，其中$n=2k$是棋盘的规模，$(x，y)$是特殊方格的位置坐标，$(k>1)$。
+\subsection{输出}
+对输入中的每个正整数k，第一行上先输出“Case Num: n=”，接着输出n的值，其中Num是测试数据的序号，从$1$开始。第$2$到第$n+1$行，输出对于规模为$n=2^k$的棋盘的一个覆盖。在该棋盘覆盖中，同一个骨牌用$3$个相同的数字表示。各骨牌表示的数字从1开始编号。特殊方格用@表示。\par
+\subsection{输入样例}
+\begin{lstlisting}
+1 2 1
+2 2 3
+\end{lstlisting}
+
+\subsection{输出样列}
+\begin{lstlisting}
+Case 1: n=2
+1 @
+1 1
+Case 2: n=4
+1 1 2 2
+1 5 # 2
+3 5 5 4
+3 3 4 4
+\end{lstlisting}
+
+\section{实验环境}
+Ubuntu 17.04 + gcc 6.3
+
 \section{实验内容和步骤}
 
-  \subsection{实验内容}
 
-    给出如下差分方程：
-    $$y(n) - (0.5+a)\times y(n-1) + 0.5ay(n-2) = x(n)$$
-    \begin{clause}
-      \item 求解系统传输函数表达式。
-      \item 当a取0.8，0.9，1.0，1.1时，画出零极点分布图。
-      \item 根据（2）中a的取值，分别画出幅频响应函数。
-    \end{clause}
+  \subsection{设计思路}
+  当$k > 0 $时，将2k* 2k的棋盘分割为4个2（k-1）*2（k-1）子棋盘。特殊方格必位于4个较小棋盘之一中，其余3个子棋盘中无特殊方格。为了将这3个无特殊方格的子棋盘化为特殊棋盘，我们用一个L型骨牌覆盖这3个较小的棋盘的回合处，这3个子棋盘被L型骨牌覆盖的方格就成为该棋盘上的特殊方格，从而将原问题化为4个小规模的棋盘覆盖问题。递归地使用这种分割，直至棋盘化简为1*1棋盘。
+ \subsection{算法描述}
 
-  \subsection{实验步骤}
-    \begin{clause}
-      \item 编写程序，求解零极点
-      \item 画出图形。
-      \item 观察结果。
-    \end{clause}
+\section{实现程序}
+	\begin{clause}
+		\lstinputlisting[language=C++]{code/cheese.cpp}
+	\end{clause}
 
-\section{主要仪器设备}
-  计算机，Matlab软件
-
-\section{操作方法和实验步骤}
-  \subsection{传输函数}
-    对差分方程进行处理，求出传输函数表达式。
-  \subsection{零极点分布图}
-    在此基础上，使用Matlab中的zplane函数进一步画出在不同a取值情况下的零极点分布图。
-  \subsection{幅频响应}
-    之后使用freqz函数画出不同a取值情况下的频率响应图像。
-
-\section{实验数据记录和处理}
-  \subsection{传输函数}
-    根据差分方程，传输函数如下：
-    $$H(z) = \frac{Y(z)}{X(z)} = \frac{z^2}{z^2-(0.5+a)z+0.5a}$$
-  \subsection{零极点分布图}
-    a = 0.8，0.9，1.1时，系统的零极点分布图及程序如下：
-    \begin{clause}
-      \item 图像
-      \begin{center}
-        \includegraphics[width=0.6\linewidth]{01.jpg}
-      \end{center}
-      \item 代码
-      \lstinputlisting[language=MATLAB]{code/do.m}
-    \end{clause}
-
-  \subsection{频率响应}
-    a = 0.8，0.9，1.0，1.1时，系统的频率响应函数图形及程序如下：
-    \begin{clause}
-      \item 图像
-      \begin{center}
-        \includegraphics[width=0.6\linewidth]{02-1.jpg}
-      \end{center}
-      \item 代码
-      \lstinputlisting[language=MATLAB]{code/next.m}
-    \end{clause}
-
-\section{实验结果与分析}
-
-balabalabala
 
 \end{document}

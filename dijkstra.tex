@@ -1,0 +1,127 @@
+\documentclass{zjureport}
+% =============================================
+% Part 1 Edit the info
+% =============================================
+
+\dmajor{计算机科学}
+\dname{颜乐春}
+% 假装封装了一下前面的变量定义部分
+
+\newcommand{\stuid}{15124542}
+\newcommand{\newdate}{2017-10-09}
+\newcommand{\loc}{704}
+
+\newcommand{\course}{算法设计於分析}
+\newcommand{\tutor}{神人}
+\newcommand{\grades}{59}
+\newcommand{\newtitle}{棋盘覆盖问题}
+\newcommand{\exptype}{Null}
+\newcommand{\group}{None}
+
+% 下划线的一个定义
+
+  
+% =============================================
+% Part 1 Main document
+% =============================================
+\begin{document}
+\thispagestyle{empty}
+
+\makeCover
+%封装了一下这部分
+%还把下划线弄了一下
+
+% =============================================
+% Part 2 Main document
+% =============================================
+
+\section{问题描述於实验目的}
+目前网络上电子地图的使用很普遍，如百度地图、高德地图等。利用电子地图可以很方便地确定从一个地点到另一个地点的最短路径。\par
+电子地图可以看成是一个图，而公交线路图可看成是带权有向图$G =(V,E)$，其中每条边的权是非负实数。\par
+
+你的任务：对给定的一个（无向）图$G$，及$G$中的两点$s、t$，确定一条从$s$到$t$的最短路径。\par
+
+\subsection{输入}
+输入有若干组测试数据（组数不超过20）。\par
+每组测试数据的第1行是一个正整数n，表示地图$G$的顶点数，$n<50$。\par
+接下来的$n$行每行$n$个数，采用矩阵方式描述这一个地图。第$i$行的$n$个数，依次表示第$i$个顶点与第$1、2、3、…、n$个顶点的路径长。假如两个顶点间无边相连，用一个$-1$表示。相邻的两个整数之间用空格隔开。注意，图中每个顶点$i$处都没有自己到自己的边。\par
+再在下面的一行上给出两个整数$s、t$，表示上述地图上的两个顶点。\par
+每组测试数据输入结束后空一行。直到输入结束。\par
+
+\subsection{输出}
+对输入中的每个城市地图，先在一行上输出“Case Num”，其中“Num”是测试数据的组号（从$1$开始），再在下一行输出从顶点s到顶点t的最短距离，格式如\textbf{“The least distance from 1->5 is 60”}，参见输出样例。\par
+在接下来的一行上输出从顶点$s$到顶点$t$的最短路径上的顶点序列，格式如\textbf{“the path is 1->4->3->5”}。\par
+
+
+\subsection{输入样例}
+\begin{lstlisting}
+5
+-1 10  -1 30 100
+-1 -1 50 -1  -1
+-1 -1 -1 -1 10
+-1 -1 20 -1 60
+-1 -1 -1 -1 -1
+1 5
+
+6
+-1 1 12 -1 -1 -1
+-1 -1 9 3 -1 -1
+-1 -1 -1 -1 5 -1
+-1 -1 4 -1 13 13
+-1 -1 -1 -1 -1 4
+-1 -1 -1 -1 -1 -1
+1 6
+\end{lstlisting}
+
+\subsection{输出样列}
+\begin{lstlisting}
+Case 1
+The least distance from 1->5 is 60
+the path is 1->4->3->5
+Case 2
+The least distance from 1->6 is 17
+the path is 1->2->4->6
+\end{lstlisting}
+
+\section{实验环境}
+Ubuntu 17.04 + gcc 6.3
+
+\section{实验内容和步骤}
+	\subsection{设计思路}
+	这个算法是通过为每个顶点$v$保留目前为止所找到的从s到v的最短路径来工作的。初始时，原点$s$的路径权重被赋为$0 （d[s] = 0）$。若对于顶点$s$ 存在能直接到达的边$（s,m）$，则把$d[m]$设为$w（s, m）$,同时把所有其他（$s$不能直接到达的）顶点的路径长度设为无穷大，即表示我们不知道任何通向这些顶点的路径（对于所有顶点的集合 $V $中的任意顶点 $v$， 若 $v$ 不为 $s$ 和上述 $m$ 之一， $d[v] = \inf$）。当算法结束时，$d[v]$ 中存储的便是从 $s$ 到 $v$ 的最短路径，或者如果路径不存在的话是无穷大。
+	\newpage
+	\subsection{算法描述}
+		\begin{algorithm}[h!]
+		\caption{Dijkstra's Algorithm} 
+		\begin{algorithmic}[1]
+			\Function {Dijkstra}{Graph, source}
+				\State create vertex set Q
+				\For{vertex v in Graph}
+					\State $dist[v] \gets INFINITY$
+					\State $prev[v] \gets UNDEFINED$
+					\State $add v to Q$
+				\EndFor
+
+				$dist[source] \gets 0$
+				\While{Q is not empty}
+					\State $u \gets vertex in Q with min dist[u]$
+					\State $remove u from Q$
+					\For{neighbor v of u}
+						$alt \gets dist[u] + length(u,v)$
+						\If{alt < dist[v]}
+							$dist[v] \gets alt$
+							$prev[v] \gets u$
+						\EndIf
+					\EndFor
+				\EndWhile
+				\Return dist prev
+			\EndFunction
+		\end{algorithmic}
+		\end{algorithm}
+\section{实现程序}
+	\begin{clause}
+		\lstinputlisting[language=C++]{code/dijkstra.cpp}
+	\end{clause}
+
+
+\end{document}

@@ -1,0 +1,81 @@
+\documentclass{zjureport}
+% =============================================
+% Part 1 Edit the info
+% =============================================
+
+\dmajor{计算机科学}
+\dname{颜乐春}
+% 假装封装了一下前面的变量定义部分
+
+\newcommand{\stuid}{15124542}
+\newcommand{\newdate}{2017-10-09}
+\newcommand{\loc}{704}
+
+\newcommand{\course}{算法设计於分析}
+\newcommand{\tutor}{神人}
+\newcommand{\grades}{59}
+\newcommand{\newtitle}{棋盘覆盖问题}
+\newcommand{\exptype}{Null}
+\newcommand{\group}{None}
+
+% 下划线的一个定义
+
+  
+% =============================================
+% Part 1 Main document
+% =============================================
+\begin{document}
+\thispagestyle{empty}
+
+\makeCover
+%封装了一下这部分
+%还把下划线弄了一下
+
+% =============================================
+% Part 2 Main document
+% =============================================
+
+\section{问题描述於实验目的}
+给定$n$个矩阵$A_{1}，A_{2}，\cdots，A_n$，其中，$A_i$与$A_{j+1}$是可乘的，$i=1，2，\cdots，n-l$。
+你的任务是要确定矩阵连乘的运算次序，使计算这$n$个矩阵的连乘积$A_{1}A_2\cdots A_n$时总的元素乘法次数达到最少。
+例如：3个矩阵$A_1，A_2，A_3$阶分别为$10 \times 100、100 \times 5、5 \times 50$，计算连乘积$A_1A_2A_3$时按$(A_1 A_2 A_3$所需的元素乘法次数达到最少，为$7500$次。
+\subsection{输入}
+测试数据有若干组，每组测试数据有2行。\par
+每组测试数据的第$1$行是一个整数$n$，$(0<n<20)$，第$2$行是$n+1$个正整数$p_0、p_1、p_2、\cdots、p_n$，这些整数不超过100，相邻两个整数之间空一格，他们表示$n$个矩阵$A_1，A_2，\cdots，A_n$，的阶$p_{i-1}, p_{i}，i=1，2，\cdots，n$.\par
+输入直到文件结束。\par
+\subsection{输出}
+对输入中的每组测试数据，输出2行。先在一行上输出“Case Num”，其中“Num”是测试数据的组号（从1开始），再在第2行上输出计算这$n$个矩阵的连乘积$A_1 A_2 \cdots A_n$时最少的总的元素乘法次数，再空一格，接着在同一行上输出矩阵连乘的添括号形式。
+注意：最外层括号应去掉。
+\subsection{输入样例}
+\begin{lstlisting}
+3
+10 100 5 50
+4
+50 10 40 30 5
+\end{lstlisting}
+
+\subsection{输出样列}
+\begin{lstlisting}
+Case 1
+7500 (A1A2)A3
+Case 2
+10500 A1(A2(A3A4))
+\end{lstlisting}
+
+\section{实验环境}
+Ubuntu 17.04 + gcc 6.3
+
+\section{实验内容和步骤}
+	\subsection{设计思路}
+		计算A[i:j]的最优次序所包含的计算矩阵子琏A[i:k]和A[k+1:j]的次序也是最优的，也即是说这个问题具有最优子结构性质，可以用动态规划解决。下面是状态转移方程:\par
+		\begin{equation}
+			m[i,j]= \min_{i \leqslant k < j} {m[i,k] + m[k+1,j] + p_{i-1}p_i}
+		\end{equation}
+
+\section{实现程序}
+	\begin{clause}
+		\lstinputlisting[language=C++]{code/cheese.cpp}
+	\end{clause}
+
+
+\end{document}

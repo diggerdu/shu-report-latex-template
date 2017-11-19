@@ -9,6 +9,9 @@
 \RequirePackage{enumitem}
 \RequirePackage{listings}
 \RequirePackage{xcolor}
+\RequirePackage{algorithmicx}
+\RequirePackage{algorithm}
+\RequirePackage[noend]{algpseudocode}
 
 \linespread{1.2}
 \geometry{top=1in,bottom=1in,left=1in,right=1in}
@@ -23,8 +26,8 @@
 % 这句估计15不支持这样的语法
 
 % \setmainfont{CMU Serif}
-\setmonofont{Lucida Console}
-\setsansfont{SimHei}
+%\setmonofont{Lucida Console}
+%\setsansfont{SimHei}
 \titleformat*{\section}{\large\bfseries}
 \titleformat*{\subsection}{\normalsize\bfseries}
 \titleformat*{\subsubsection}{\normalsize}
@@ -75,7 +78,7 @@
 \newcommand{\makeCover}{
 \begin{figure}[h]
   \begin{minipage}{0.7\linewidth}
-    \centerline{\includegraphics[width=\linewidth]{head.jpg}}
+    \centerline{\includegraphics[width=\linewidth]{head.png}}
   \end{minipage}
   \hfill
   \begin{minipage}{.3\linewidth}
