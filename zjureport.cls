@@ -11,7 +11,9 @@
 \RequirePackage{xcolor}
 \RequirePackage{algorithmicx}
 \RequirePackage{algorithm}
+\RequirePackage{amssymb}
 \RequirePackage[noend]{algpseudocode}
+
 
 \linespread{1.2}
 \geometry{top=1in,bottom=1in,left=1in,right=1in}
