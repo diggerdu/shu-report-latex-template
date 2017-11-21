@@ -1,0 +1,129 @@
+\documentclass{zjureport}
+% =============================================
+% Part 1 Edit the info
+% =============================================
+
+\dmajor{计算机科学}
+\dname{颜乐春}
+% 假装封装了一下前面的变量定义部分
+
+\newcommand{\stuid}{15124542}
+\newcommand{\newdate}{2017-10-09}
+\newcommand{\loc}{704}
+
+\newcommand{\course}{算法设计於分析}
+\newcommand{\tutor}{神人}
+\newcommand{\grades}{59}
+\newcommand{\newtitle}{棋盘覆盖问题}
+\newcommand{\exptype}{Null}
+\newcommand{\group}{None}
+
+% 下划线的一个定义
+
+  
+% =============================================
+% Part 1 Main document
+% =============================================
+\begin{document}
+\thispagestyle{empty}
+
+\makeCover
+%封装了一下这部分
+%还把下划线弄了一下
+
+% =============================================
+% Part 2 Main document
+% =============================================
+
+\section{问题描述於实验目的}
+给定$n$个字母（或字）在文档中出现的频率序列$X=<x_1,x_2,…,x_n>$，求出这n个字母的Huffman编码。为方便起见，以下将频率用字母出现的次数（或称权值）$w_1,w_2,\cdots,w_n$代替。\par
+\subsection{输入}
+输入文件中的开始行上有一个整数$T$，$（0<T\leqslant20）$，表示有$T$组测试数据。\par
+接下来是$T$行测试数据的描述，每组测试数据有$2$行。测试数据的第$1$行上是一个正整数$n$，$(n<50)$，表示序列的长度。第$2$行是$n$个字母出现的权值序列$w_1,w_2,\cdots,w_n$，它们均为正整数，相邻的两个整数之间用空格隔开。\par
+输入直到文件结束。\par
+
+\subsection{输出}
+对输入中的每组有$n$个权值的$ica$数据，应输出$n+1$行：先在一行上输出“Case Num”，其中“Num”是测试数据的组号（从1开始）；接下来输出$n$行，其第$1$行到第$n$行上依次输出第i个字母出现的次数和相应的Huffman编码，格式如下：\\
+$w_i$ Huffman编码。\\
+每组测试数据对应的输出最后结束时加一个空行，以便区分。\\
+为保证Huffman编码的唯一性，在构造Huffman树的过程中，我们约定：\\
+\begin{itemize}
+\item 左儿子标记为0，右儿子标记为1；
+\item 左儿子的权值>=右儿子的权值；
+\item 相同权值w的两个字母x、y，先输入权值的字母x的Huffman编码长度不超过后输入权值的字母y的Huffman编码长度。
+\item 合并两个节点后新的权值应从右到左搜索、插入到相应的位置。
+\end{itemize}
+
+
+\subsection{输入样例}
+\begin{lstlisting}
+2
+6
+9 8 3 4 1 2
+8
+60 20 5 5 3 3 3 1
+\end{lstlisting}
+
+\subsection{输出样列}
+\begin{lstlisting}
+Case 1
+9 00
+8 01
+3 100
+4 11
+1 1011
+2 1010
+
+Case 2
+60 0
+20 10
+5 1101
+5 1110
+3 11000
+3 11001
+3 11110
+1 11111
+\end{lstlisting}
+
+\section{实验环境}
+Ubuntu 17.04 + gcc 6.3
+
+\section{实验内容和步骤}
+	\subsection{设计思路}
+	这个算法是通过为每个顶点$v$保留目前为止所找到的从s到v的最短路径来工作的。初始时，原点$s$的路径权重被赋为$0 （d[s] = 0）$。若对于顶点$s$ 存在能直接到达的边$（s,m）$，则把$d[m]$设为$w（s, m）$,同时把所有其他（$s$不能直接到达的）顶点的路径长度设为无穷大，即表示我们不知道任何通向这些顶点的路径（对于所有顶点的集合 $V $中的任意顶点 $v$， 若 $v$ 不为 $s$ 和上述 $m$ 之一， $d[v] = \inf$）。当算法结束时，$d[v]$ 中存储的便是从 $s$ 到 $v$ 的最短路径，或者如果路径不存在的话是无穷大。
+	\newpage
+	\subsection{算法描述}
+		\begin{algorithm}[h!]
+		\caption{Dijkstra's Algorithm} 
+		\begin{algorithmic}[1]
+			\Function {Dijkstra}{Graph, source}
+				\State create vertex set Q
+				\For{vertex v in Graph}
+					\State $dist[v] \gets INFINITY$
+					\State $prev[v] \gets UNDEFINED$
+					\State $add v to Q$
+				\EndFor
+
+				$dist[source] \gets 0$
+				\While{Q is not empty}
+					\State $u \gets vertex in Q with min dist[u]$
+					\State $remove u from Q$
+					\For{neighbor v of u}
+						$alt \gets dist[u] + length(u,v)$
+						\If{alt < dist[v]}
+							$dist[v] \gets alt$
+							$prev[v] \gets u$
+						\EndIf
+					\EndFor
+				\EndWhile
+				\Return dist prev
+			\EndFunction
+		\end{algorithmic}
+		\end{algorithm}
+\section{实现程序}
+	\begin{clause}
+		\lstinputlisting[language=C++]{code/dijkstra.cpp}
+	\end{clause}
+
+
+\end{document}
